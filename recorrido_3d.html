@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alféizar Reformas · Visita Interactiva | Piso García</title>
+  <style>
+    :root {
+      --bg-page: #EDECE7;
+      --primary: #1E293B;
+      --primary-dark: #0F172A;
+      --accent: #5A7D65;
+      --accent-light: #EBF2ED;
+      --card-bg: #FFFFFF;
+      --text: #2D3748;
+      --text-muted: #64748B;
+      --border: #E2E8F0;
+      --border-dark: #CBD5E1;
+      --shadow: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-page);
+      color: var(--text);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      background: var(--bg-page);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      z-index: 20;
+    }
+    .header-left .brand-sub {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .header-left h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 2px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header-left h1 span {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    .header-left .tagline {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    /* State Switcher Toggle */
+    .state-toggle-container {
+      display: flex;
+      background: #FFFFFF;
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--border-dark);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    }
+    .btn-toggle-state {
+      border: none;
+      background: transparent;
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-toggle-state.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(30,41,59,0.25);
+    }
+
+    /* MAIN CONTAINER: VIEWPORT + SIDEBAR */
+    .main-layout {
+      flex: 1;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 3D VIEWPORT */
+    .viewport-area {
+      flex: 1;
+      position: relative;
+      background: var(--bg-page);
+    }
+    #three-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* NAVIGATION SUB-BAR (Floating top-left of viewport) */
+    .nav-bar {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 10;
+      flex-wrap: wrap;
+    }
+    .btn-nav-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border-dark);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-nav-pill:hover {
+      background: #F8FAFC;
+      border-color: var(--primary);
+    }
+    .btn-nav-pill.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+    }
+    .select-room-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border-dark);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    /* Wall height slider container */
+    .slider-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border-dark);
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .slider-pill input[type="range"] {
+      width: 80px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    /* Bottom Info Card */
+    .bottom-info-card {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border-dark);
+      box-shadow: var(--shadow);
+      z-index: 10;
+      pointer-events: auto;
+      max-width: 380px;
+    }
+    .bottom-info-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 2px;
+    }
+    .bottom-info-card p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* Compass / North indicator */
+    .compass-indicator {
+      position: absolute;
+      bottom: 20px;
+      right: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .compass-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .compass-text {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* RIGHT SIDEBAR */
+    .sidebar {
+      width: 360px;
+      background: #FFFFFF;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 20;
+      box-shadow: -4px 0 16px rgba(0,0,0,0.03);
+    }
+
+    /* Top Budget Card in Sidebar */
+    .budget-card {
+      margin: 20px;
+      background: #EBF0EC;
+      border: 1px solid #D5E2D7;
+      padding: 18px;
+      border-radius: 12px;
+    }
+    .budget-sub {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+    }
+    .budget-amount {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 4px 0;
+    }
+    .budget-meta {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* Sidebar Content Sections */
+    .sidebar-section {
+      padding: 0 20px 20px 20px;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .section-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    /* Notice callout in Estado actual */
+    .callout-box {
+      background: #FAF6EE;
+      border-left: 4px solid #D4A373;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #7A5833;
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    /* Swatches Grid */
+    .swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .swatch-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .swatch-item:hover { background: #F1F5F9; }
+    .swatch-color {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.12);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .swatch-code {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* Interventions List */
+    .interventions-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .interventions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .intervention-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-dark);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.15s ease;
+    }
+    .intervention-card:hover {
+      border-color: var(--accent);
+      background: #F8FAF9;
+      transform: translateX(2px);
+    }
+    .intervention-card.active {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    /* Detail Modal / Panel in Sidebar when item selected */
+    .detail-panel {
+      display: none;
+      background: #F8FAFC;
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 12px;
+      font-size: 12.5px;
+    }
+    .detail-panel.visible { display: block; }
+    .detail-header {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .detail-trade {
+      display: inline-block;
+      font-size: 10.5px;
+      padding: 2px 6px;
+      background: #E2E8F0;
+      border-radius: 4px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .detail-desc {
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+    .detail-price-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+    .btn-close-detail {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 8px;
+      display: inline-block;
+    }
+
+    /* Sidebar Footer Button */
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      background: #FFFFFF;
+    }
+    .btn-full-budget {
+      width: 100%;
+      background: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      transition: background 0.15s;
+    }
+    .btn-full-budget:hover { background: var(--primary-dark); }
+  </style>
+  <!-- Three.js + OrbitControls + TWEEN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="top-header">
+    <div class="header-left">
+      <div class="brand-sub">Alféizar Reformas · Visita Interactiva</div>
+      <h1>Piso García <span>/ Ruzafa, Valencia</span></h1>
+      <div class="tagline">60 m² · Compara los espacios y consulta cada intervención</div>
+    </div>
+    <div class="state-toggle-container">
+      <button id="btnStateActual" class="btn-toggle-state" onclick="setRenovationState('actual')">Estado actual</button>
+      <button id="btnStateReforma" class="btn-toggle-state active" onclick="setRenovationState('reforma')">Reforma</button>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main-layout">
+
+    <!-- 3D VIEWPORT -->
+    <div class="viewport-area">
+      <!-- Floating Navigation Bar -->
+      <div class="nav-bar">
+        <button id="btnViewGeneral" class="btn-nav-pill active" onclick="resetToGeneralView()">Vista general</button>
+        <button id="btnEnterFloor" class="btn-nav-pill" onclick="enterFirstPersonView()">Entrar al piso</button>
+        <select id="selectRoom" class="select-room-pill" onchange="onRoomSelected(this.value)">
+          <option value="general">Salón</option>
+          <option value="cocina">Cocina y península</option>
+          <option value="bano">Baño</option>
+          <option value="dorm1">Dormitorio 1</option>
+          <option value="dorm2">Dormitorio 2</option>
+          <option value="pasillo">Pasillo</option>
+        </select>
+        <button id="btnGuidedTour" class="btn-nav-pill" onclick="toggleGuidedTour()">
+          <span>▶️</span> Recorrido guiado
+        </button>
+        <button id="btnToggleLabels" class="btn-nav-pill active" onclick="toggleLabels()">
+          <span>🏷️</span> Etiquetas
+        </button>
+        <div class="slider-pill">
+          <span>Muros</span>
+          <input type="range" id="wallHeightSlider" min="0.3" max="2.6" step="0.05" value="1.3" oninput="onWallHeightChange(this.value)">
+        </div>
+      </div>
+
+      <!-- Canvas for Three.js -->
+      <canvas id="three-canvas"></canvas>
+
+      <!-- Bottom instruction card -->
+      <div class="bottom-info-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; gap: 8px;">
+          <h4 id="bottomInfoTitle">Explora la reforma</h4>
+          <button id="btnResetSelection" onclick="clearSelection()" style="display: none; background: #1E293B; color: #FFFFFF; border: none; border-radius: 12px; font-size: 11px; font-weight: 600; padding: 3px 10px; cursor: pointer; transition: background 0.15s;">✕ Ver todo el piso</button>
+        </div>
+        <p id="bottomInfoDesc">Arrastra para girar · Rueda para acercarte · Pulsa un elemento para ver su partida</p>
+      </div>
+
+      <!-- Compass -->
+      <div class="compass-indicator">
+        <div class="compass-circle">↗️</div>
+        <div class="compass-text">Norte<br>pared de ventanas</div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar">
+      <!-- Budget Card -->
+      <div class="budget-card">
+        <div class="budget-sub">Presupuesto de la Reforma</div>
+        <div class="budget-amount">22.792,00 €</div>
+        <div class="budget-meta">IVA incluido · Presupuesto de 20/09/2026</div>
+      </div>
+
+      <!-- State specific info -->
+      <div class="sidebar-section">
+        <div id="stateInfoActual" style="display: none;">
+          <div class="section-title">Estado actual</div>
+          <div class="section-desc">Cocina separada del salón y baño con bañera. Acabados y equipamiento existentes representados de forma esquemática.</div>
+          <div class="callout-box">
+            Cambia a <strong>Reforma</strong> para consultar las partidas de los elementos nuevos y la distribución diáfana con península.
+          </div>
+        </div>
+
+        <div id="stateInfoReforma">
+          <div class="section-title">Explora la reforma</div>
+          <div class="section-desc">Pulsa un elemento del modelo 3D o elige una intervención de la lista inferior para consultar su detalle económico y técnico.</div>
+        </div>
+
+        <!-- Material Swatches -->
+        <div class="swatches-grid">
+          <div class="swatch-item" onclick="highlightByCode('S01')">
+            <div class="swatch-color" style="background: #C08D54;" title="Laminado roble AC5"></div>
+            <span class="swatch-code">S01</span>
+          </div>
+          <div class="swatch-item" onclick="highlightByCode('S02')">
+            <div class="swatch-color" style="background: #949CA2;" title="Porcelánico gris perla"></div>
+            <span class="swatch-code">S02</span>
+          </div>
+          <div class="swatch-item" onclick="highlightByCode('P01')">
+            <div class="swatch-color" style="background: #F8F8F6; border: 1px solid #CBD5E1;" title="Azulejo blanco mate"></div>
+            <span class="swatch-code">P01</span>
+          </div>
+          <div class="swatch-item" onclick="highlightByCode('P03')">
+            <div class="swatch-color" style="background: #F3F0E8;" title="Pintura blanco roto"></div>
+            <span class="swatch-code">P03</span>
+          </div>
+          <div class="swatch-item" onclick="highlightByCode('M02')">
+            <div class="swatch-color" style="background: #4F7057;" title="Verde salvia frentes"></div>
+            <span class="swatch-code">M02</span>
+          </div>
+          <div class="swatch-item" onclick="highlightByCode('E01')">
+            <div class="swatch-color" style="background: #FFFFFF; border: 1px solid #CBD5E1;" title="Cuarzo blanco encimera"></div>
+            <span class="swatch-code">E01</span>
+          </div>
+        </div>
+
+        <!-- Detail Box when item selected -->
+        <div id="detailPanel" class="detail-panel">
+          <div id="detailTrade" class="detail-trade">Oficio</div>
+          <div id="detailTitle" class="detail-header">Partida seleccionada</div>
+          <div id="detailDesc" class="detail-desc">Descripción del suministro y colocación.</div>
+          <div class="detail-price-row">
+            <span id="detailCalc">Medición x Precio</span>
+            <span id="detailTotal">0,00 €</span>
+          </div>
+          <button class="btn-close-detail" onclick="clearSelection()">Cerrar detalle</button>
+        </div>
+
+        <!-- Interventions List -->
+        <div class="interventions-title">
+          <span>Intervenciones</span>
+        </div>
+        <div class="interventions-list" id="interventionsList">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Footer Button -->
+      <div class="sidebar-footer">
+        <a href="presupuesto_garcia.html" class="btn-full-budget">📄 Ver Presupuesto Completo en PDF / Excel</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    // DATA: Intervenciones according to Alfeizar standards
+    const interventionsData = [
+      {
+        id: 'laminado',
+        code: 'S01',
+        title: 'Suelo laminado de roble',
+        trade: '5. Carpintería y mobiliario',
+        desc: 'Suministro y colocación de suelo laminado roble natural AC5 de Maderas Turia (modelo S01), sobre lámina aislante acústica y térmica.',
+        calc: '55,00 m² × 38,00 €/m²',
+        total: '2.090,00 €',
+        cameraTarget: { x: 0, y: 1.0, z: 0 },
+        cameraPos: { x: 5, y: 6, z: 6 }
+      },
+      {
+        id: 'cocina_muebles',
+        code: 'M02',
+        title: 'Mobiliario cocina verde salvia',
+        trade: '5. Carpintería y mobiliario',
+        desc: 'Suministro y montaje de mobiliario de cocina en L (5 ml) con frentes verde salvia (modelo M02) y cierre amortiguado.',
+        calc: '5,00 ml × 620,00 €/ml',
+        total: '3.100,00 €',
+        cameraTarget: { x: 2.6, y: 1.0, z: -2.0 },
+        cameraPos: { x: 2.0, y: 3.5, z: 2.5 }
+      },
+      {
+        id: 'peninsula',
+        code: 'K02',
+        title: 'Península con almacenaje',
+        trade: '5. Carpintería y mobiliario',
+        desc: 'Suministro y montaje de península divisoria cocina-salón (2 ml) con estructura, almacenaje bajo a dos caras y frentes verde salvia M02.',
+        calc: '1,00 ud × 1.450,00 €',
+        total: '1.450,00 €',
+        cameraTarget: { x: 1.0, y: 0.9, z: -1.2 },
+        cameraPos: { x: -1.0, y: 3.0, z: 2.5 }
+      },
+      {
+        id: 'encimera',
+        code: 'E01',
+        title: 'Encimera de cuarzo blanco',
+        trade: '5. Carpintería y mobiliario',
+        desc: 'Suministro e instalación de encimera de cuarzo blanco de 2 cm de Encimeras Levante (modelo E01), colocada con copetes y cajeados en bancada y península.',
+        calc: '7,00 ml × 270,00 €/ml',
+        total: '1.890,00 €',
+        cameraTarget: { x: 1.8, y: 1.0, z: -1.5 },
+        cameraPos: { x: 0.5, y: 3.2, z: 2.2 }
+      },
+      {
+        id: 'ducha',
+        code: 'B01',
+        title: 'Plato de ducha y mampara',
+        trade: '3. Fontanería y aparatos sanitarios',
+        desc: 'Suministro e instalación de plato de ducha de resina antideslizante extraplano con mampara de vidrio templado de seguridad.',
+        calc: '1,00 ud × 890,00 €',
+        total: '890,00 €',
+        cameraTarget: { x: 3.0, y: 0.8, z: 2.8 },
+        cameraPos: { x: 2.5, y: 3.5, z: 5.5 }
+      },
+      {
+        id: 'bano_suelo',
+        code: 'S02',
+        title: 'Suelo porcelánico del baño',
+        trade: '2. Albañilería y revestimientos',
+        desc: 'Suministro y colocación de pavimento porcelánico gris perla 60x60 cm de Cerámicas Onda (modelo S02) en baño.',
+        calc: '5,00 m² × 63,00 €/m²',
+        total: '315,00 €',
+        cameraTarget: { x: 3.0, y: 0.5, z: 2.5 },
+        cameraPos: { x: 2.2, y: 3.8, z: 5.0 }
+      },
+      {
+        id: 'bano_azulejos',
+        code: 'P01',
+        title: 'Azulejos blancos del baño',
+        trade: '2. Albañilería y revestimientos',
+        desc: 'Suministro y colocación de azulejo blanco mate 30x60 cm de Cerámicas Onda (modelo P01) en paredes de baño con cemento cola flexible.',
+        calc: '23,40 m² × 58,00 €/m²',
+        total: '1.357,20 €',
+        cameraTarget: { x: 3.0, y: 1.2, z: 2.5 },
+        cameraPos: { x: 2.2, y: 3.5, z: 5.2 }
+      },
+      {
+        id: 'pintura',
+        code: 'P03',
+        title: 'Paredes y techos blanco roto',
+        trade: '6. Pintura',
+        desc: 'Suministro y aplicación de pintura plástica lisa color blanco roto (acabado P03) en paredes y techos de toda la vivienda excepto baño.',
+        calc: '210,00 m² × 9,00 €/m²',
+        total: '1.890,00 €',
+        cameraTarget: { x: -1.0, y: 1.5, z: 0 },
+        cameraPos: { x: 4.5, y: 6.0, z: 6.0 }
+      },
+      {
+        id: 'rodapie',
+        code: 'R05',
+        title: 'Rodapié lacado blanco',
+        trade: '5. Carpintería y mobiliario',
+        desc: 'Suministro y colocación de rodapié lacado en blanco de 8 cm fijado a pared y sellado.',
+        calc: '54,00 ml × 8,00 €/ml',
+        total: '432,00 €',
+        cameraTarget: { x: -1.0, y: 0.2, z: 0 },
+        cameraPos: { x: 3.0, y: 4.0, z: 4.0 }
+      },
+      {
+        id: 'cargadero',
+        code: 'A04',
+        title: 'Cargadero metálico de seguridad',
+        trade: '2. Albañilería y refuerzos',
+        desc: 'Suministro y colocación de cargadero metálico estructural en apertura de hueco cocina-salón (4 m) para total seguridad.',
+        calc: '1,00 ud × 650,00 €',
+        total: '650,00 €',
+        cameraTarget: { x: 1.0, y: 1.5, z: -1.75 },
+        cameraPos: { x: -0.5, y: 3.2, z: 2.0 }
+      },
+      {
+        id: 'puertas',
+        code: 'C01',
+        title: 'Puertas interiores lacadas',
+        trade: '5. Carpintería y mobiliario',
+        desc: 'Suministro y colocación de 4 puertas interiores de paso abatibles lacadas en blanco con tapajuntas y manivelas cromadas.',
+        calc: '4,00 ud × 340,00 €',
+        total: '1.360,00 €',
+        cameraTarget: { x: 0, y: 1.0, z: 0.5 },
+        cameraPos: { x: 2.0, y: 3.8, z: 4.5 }
+      }
+    ];
+
+    // Populate Sidebar Interventions
+    const listContainer = document.getElementById('interventionsList');
+    interventionsData.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'intervention-card';
+      card.id = 'card-' + item.id;
+      card.innerHTML = `<span>${item.title}</span><span style="font-size:11px; color:#64748B;">${item.total}</span>`;
+      card.onclick = () => selectIntervention(item.id);
+      listContainer.appendChild(card);
+    });
+
+    // ---------------- THREE.JS INITIALIZATION ----------------
+    const canvas = document.getElementById('three-canvas');
+    const viewportArea = document.querySelector('.viewport-area');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xEDECE7); // Exact warm background from screenshot
+
+    function getViewportDims() {
+      const w = (viewportArea && viewportArea.clientWidth) ? viewportArea.clientWidth : (window.innerWidth - 360);
+      const h = (viewportArea && viewportArea.clientHeight) ? viewportArea.clientHeight : (window.innerHeight - 70);
+      return { width: Math.max(w, 200), height: Math.max(h, 200) };
+    }
+
+    const dims = getViewportDims();
+    const camera = new THREE.PerspectiveCamera(40, dims.width / dims.height, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    renderer.setSize(dims.width, dims.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxPolarAngle = Math.PI / 2 - 0.05; // Do not go below floor
+
+    // HIGH-DEFINITION ARCHITECTURAL LIGHTING: Balanced contrast, rich depth, no washed-out surfaces
+    const ambientLight = new THREE.AmbientLight(0xFFFBF0, 0.22);
+    scene.add(ambientLight);
+
+    const hemiLight = new THREE.HemisphereLight(0xFFFFFF, 0x7A7062, 0.22);
+    hemiLight.position.set(0, 25, 0);
+    scene.add(hemiLight);
+
+    const dirLight = new THREE.DirectionalLight(0xFFFAF2, 0.85);
+    dirLight.position.set(14, 24, 12);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.camera.near = 1;
+    dirLight.shadow.camera.far = 50;
+    dirLight.shadow.camera.left = -10;
+    dirLight.shadow.camera.right = 10;
+    dirLight.shadow.camera.top = 10;
+    dirLight.shadow.camera.bottom = -10;
+    dirLight.shadow.bias = -0.0003;
+    scene.add(dirLight);
+
+    const fillLight = new THREE.DirectionalLight(0xD8E5F0, 0.22);
+    fillLight.position.set(-12, 16, -12);
+    scene.add(fillLight);
+
+    // ---------------- PROCEDURAL TEXTURES GENERATORS ----------------
+    // 1. Suelo Laminado Roble Natural AC5 (S01) - Tablas de madera realistas con juntas
+    function createLaminateTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512;
+      c.height = 512;
+      const ctx = c.getContext('2d');
+      
+      // Base cálida roble natural
+      ctx.fillStyle = '#C08D54';
+      ctx.fillRect(0, 0, 512, 512);
+
+      const numPlanks = 4;
+      const plankH = 512 / numPlanks;
+      const tones = ['#C8965D', '#BD8950', '#C59259', '#B58249'];
+
+      for (let i = 0; i < numPlanks; i++) {
+        const y = i * plankH;
+        ctx.fillStyle = tones[i % tones.length];
+        ctx.fillRect(0, y, 512, plankH);
+
+        // Vetas de madera sutiles
+        ctx.strokeStyle = 'rgba(105, 65, 25, 0.16)';
+        ctx.lineWidth = 1.5;
+        for (let g = 0; g < 7; g++) {
+          const gy = y + 12 + g * (plankH / 8);
+          ctx.beginPath();
+          ctx.moveTo(0, gy);
+          ctx.bezierCurveTo(140, gy - 3, 340, gy + 3, 512, gy - 1);
+          ctx.stroke();
+        }
+
+        // Junta vertical escalonada entre tablas
+        const vSplit = (i % 2 === 0) ? 230 : 370;
+        ctx.strokeStyle = '#6E4520';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(vSplit, y);
+        ctx.lineTo(vSplit, y + plankH);
+        ctx.stroke();
+
+        // Ranura horizontal de separación de lamas
+        ctx.strokeStyle = '#633D1A';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(512, y);
+        ctx.stroke();
+      }
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(4, 4);
+      return tex;
+    }
+
+    // 2. Pavimento Porcelánico Gris Perla 60x60 cm (S02) - Baldosas cuadradas con llagas
+    function createPorcelainTexture() {
+      const c = document.createElement('canvas');
+      c.width = 256;
+      c.height = 256;
+      const ctx = c.getContext('2d');
+
+      ctx.fillStyle = '#949CA2';
+      ctx.fillRect(0, 0, 256, 256);
+
+      // Micrograno pétreo
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.10)';
+      for (let i = 0; i < 35; i++) {
+        ctx.fillRect((i * 41) % 256, (i * 67) % 256, 10, 6);
+      }
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+      for (let i = 0; i < 35; i++) {
+        ctx.fillRect((i * 73) % 256, (i * 37) % 256, 8, 4);
+      }
+
+      // Cuadrícula 2x2 representando baldosas de 60x60 cm
+      ctx.strokeStyle = '#D1D7DC';
+      ctx.lineWidth = 3.5;
+      ctx.strokeRect(0, 0, 256, 256);
+      ctx.beginPath();
+      ctx.moveTo(128, 0); ctx.lineTo(128, 256);
+      ctx.moveTo(0, 128); ctx.lineTo(256, 128);
+      ctx.stroke();
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(2, 2.5);
+      return tex;
+    }
+
+    // 3. Azulejos Blanco Mate 30x60 cm (P01) - Alicatado metro horizontal
+    function createWallTileTexture() {
+      const c = document.createElement('canvas');
+      c.width = 256;
+      c.height = 256;
+      const ctx = c.getContext('2d');
+
+      ctx.fillStyle = '#F8F8F6';
+      ctx.fillRect(0, 0, 256, 256);
+
+      const rows = 4;
+      const rowH = 256 / rows;
+      ctx.strokeStyle = '#CBD5E1';
+      ctx.lineWidth = 2.5;
+
+      for (let r = 0; r <= rows; r++) {
+        ctx.beginPath();
+        ctx.moveTo(0, r * rowH);
+        ctx.lineTo(256, r * rowH);
+        ctx.stroke();
+
+        if (r < rows) {
+          const v = (r % 2 === 0) ? 128 : 64;
+          const v2 = (r % 2 === 0) ? 256 : 192;
+          ctx.beginPath();
+          ctx.moveTo(v, r * rowH); ctx.lineTo(v, (r + 1) * rowH);
+          ctx.moveTo(v2, r * rowH); ctx.lineTo(v2, (r + 1) * rowH);
+          ctx.stroke();
+        }
+      }
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(3, 2);
+      return tex;
+    }
+
+    // 4. Suelo Estado Actual (Cerámica antigua)
+    function createOldFloorTexture() {
+      const c = document.createElement('canvas');
+      c.width = 256;
+      c.height = 256;
+      const ctx = c.getContext('2d');
+
+      ctx.fillStyle = '#D4C5B0';
+      ctx.fillRect(0, 0, 256, 256);
+
+      ctx.fillStyle = 'rgba(90, 70, 50, 0.15)';
+      for (let i = 0; i < 60; i++) {
+        ctx.fillRect((i * 43) % 256, (i * 61) % 256, 4, 4);
+      }
+      ctx.strokeStyle = '#B3A188';
+      ctx.lineWidth = 2.5;
+      ctx.strokeRect(0, 0, 256, 256);
+      ctx.beginPath();
+      ctx.moveTo(128, 0); ctx.lineTo(128, 256);
+      ctx.moveTo(0, 128); ctx.lineTo(256, 128);
+      ctx.stroke();
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(3, 3);
+      return tex;
+    }
+
+    // MATERIALS PALETTE: Materiales realistas texturizados con máxima fidelidad
+    const texLaminado = createLaminateTexture();
+    const texPorcelanico = createPorcelainTexture();
+    const texWallTile = createWallTileTexture();
+    const texOldFloor = createOldFloorTexture();
+
+    const matWallActual = new THREE.MeshStandardMaterial({ color: 0xD8D3C5, roughness: 0.90, metalness: 0.01 });
+    const matWallReforma = new THREE.MeshStandardMaterial({ color: 0xF3F0E8, roughness: 0.88, metalness: 0.01 }); // Blanco roto luminoso
+    const matFloorActual = new THREE.MeshStandardMaterial({ map: texOldFloor, roughness: 0.65 });
+    const matFloorLaminado = new THREE.MeshStandardMaterial({ map: texLaminado, roughness: 0.38, metalness: 0.02 }); // Roble con lamas
+    const matFloorPorcelanico = new THREE.MeshStandardMaterial({ map: texPorcelanico, roughness: 0.32, metalness: 0.04 }); // Baldosas 60x60
+    const matWallTile = new THREE.MeshStandardMaterial({ map: texWallTile, roughness: 0.22, metalness: 0.03 }); // Azulejo 30x60
+    const matSage = new THREE.MeshStandardMaterial({ color: 0x4F7057, roughness: 0.35, metalness: 0.03 }); // Verde salvia intenso y fiel
+    const matQuartz = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.10, metalness: 0.05 }); // Cuarzo blanco puro pulido
+    const matSteel = new THREE.MeshStandardMaterial({ color: 0x1E2226, roughness: 0.30, metalness: 0.85 }); // Acero estructural oscuro
+    const matGlass = new THREE.MeshPhysicalMaterial({ color: 0xFFFFFF, transmission: 0.9, opacity: 1, transparent: true, roughness: 0.1 });
+    const matWhiteDoor = new THREE.MeshStandardMaterial({ color: 0xFCFCFC, roughness: 0.30 });
+    const matOldDoor = new THREE.MeshStandardMaterial({ color: 0x754F3A, roughness: 0.55 });
+    const matWindowGlass = new THREE.MeshStandardMaterial({ color: 0x76BEE6, transparent: true, opacity: 0.45, roughness: 0.1 });
+    const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x706757, linewidth: 1 });
+    const floorEdgeMaterial = new THREE.LineBasicMaterial({ color: 0x8C7A65, linewidth: 1 });
+
+    // COORDINATE MAPPING (Apartment centered at 0,0)
+    // Width = 8m (X: 0..8, cx = 4)
+    // Length = 7.5m (Z: 0..7.5, cz = 3.75)
+    const cx = 4.0;
+    const cz = 3.75;
+    let currentWallH = 1.3;
+
+    // GROUPS
+    const groupActual = new THREE.Group();
+    const groupReforma = new THREE.Group();
+    const groupLabels = new THREE.Group();
+    scene.add(groupActual);
+    scene.add(groupReforma);
+    scene.add(groupLabels);
+
+    const interactiveMeshes = [];
+
+    // Helper: Floor slab
+    function createFloor(x, z, w, l, mat, parentGroup) {
+      const geo = new THREE.BoxGeometry(w, 0.06, l);
+      const meshMat = mat.clone();
+      const mesh = new THREE.Mesh(geo, meshMat);
+      mesh.userData.origMaterial = meshMat;
+      mesh.userData.origColor = meshMat.color.clone();
+      mesh.userData.origOpacity = meshMat.opacity;
+      mesh.userData.origTransparent = meshMat.transparent;
+      mesh.position.set(x + w / 2 - cx, 0.03, z + l / 2 - cz);
+      mesh.receiveShadow = true;
+      const edges = new THREE.EdgesGeometry(geo);
+      const line = new THREE.LineSegments(edges, floorEdgeMaterial.clone());
+      mesh.add(line);
+      parentGroup.add(mesh);
+      return mesh;
+    }
+
+    // Helper: Wall with dynamic height scaling and crisp architectural edges
+    const dynamicWalls = [];
+    function createWall(x, z, w, l, mat, parentGroup, isWindow = false) {
+      const geo = new THREE.BoxGeometry(w, currentWallH, l);
+      const meshMat = mat.clone();
+      const mesh = new THREE.Mesh(geo, meshMat);
+      mesh.userData.origMaterial = meshMat;
+      mesh.userData.origColor = meshMat.color.clone();
+      mesh.userData.origOpacity = meshMat.opacity;
+      mesh.userData.origTransparent = meshMat.transparent;
+      mesh.position.set(x + w / 2 - cx, currentWallH / 2 + 0.06, z + l / 2 - cz);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.userData.baseW = w;
+      mesh.userData.baseL = l;
+      mesh.userData.baseX = x + w / 2 - cx;
+      mesh.userData.baseZ = z + l / 2 - cz;
+      mesh.userData.isWindow = isWindow;
+
+      if (!isWindow) {
+        const edges = new THREE.EdgesGeometry(geo);
+        const line = new THREE.LineSegments(edges, edgeMaterial.clone());
+        mesh.add(line);
+      }
+
+      parentGroup.add(mesh);
+      dynamicWalls.push(mesh);
+      return mesh;
+    }
+
+    // ---------------- 1. CONSTRUCT ESTADO ACTUAL ----------------
+    // Floors
+    createFloor(0, 0, 5, 4, matFloorActual, groupActual); // Salón
+    createFloor(5, 0, 3, 4, matFloorActual, groupActual); // Cocina
+    createFloor(0, 4, 8, 1, matFloorActual, groupActual); // Pasillo
+    createFloor(0, 5, 3.5, 2.5, matFloorActual, groupActual); // Dorm 1
+    createFloor(3.5, 5, 2.5, 2.5, matFloorActual, groupActual); // Dorm 2
+    createFloor(6, 5, 2, 2.5, matFloorActual, groupActual); // Baño
+
+    // Walls Exterior
+    const t = 0.12;
+    createWall(0, 0, 1.8, t, matWallActual, groupActual);
+    createWall(3.2, 0, 2.6, t, matWallActual, groupActual);
+    createWall(7.0, 0, 1.0, t, matWallActual, groupActual);
+    createWall(1.8, 0, 1.4, t, matWindowGlass, groupActual, true); // Ventana Salón
+    createWall(5.8, 0, 1.2, t, matWindowGlass, groupActual, true); // Ventana Cocina
+
+    createWall(8 - t, 0, t, 7.5, matWallActual, groupActual); // East wall
+    createWall(0, 0, t, 7.5, matWallActual, groupActual); // West wall
+
+    createWall(0, 7.5 - t, 1.0, t, matWallActual, groupActual);
+    createWall(2.5, 7.5 - t, 2.0, t, matWallActual, groupActual);
+    createWall(5.5, 7.5 - t, 2.5, t, matWallActual, groupActual);
+    createWall(1.0, 7.5 - t, 1.5, t, matWindowGlass, groupActual, true); // Ventana Dorm 1
+    createWall(4.5, 7.5 - t, 1.0, t, matWindowGlass, groupActual, true); // Ventana Dorm 2
+
+    // INTERIOR WALLS ACTUAL
+    // Tabique between Salón and Cocina (x=5, z=0..4) - PRESENT IN ACTUAL!
+    createWall(5.0 - t/2, 0, t, 4.0, matWallActual, groupActual);
+
+    // Wall between Salón/Cocina and Pasillo (z=4)
+    createWall(0, 4 - t, 2.4, t, matWallActual, groupActual);
+    createWall(3.2, 4 - t, 2.8, t, matWallActual, groupActual);
+    createWall(6.8, 4 - t, 1.2, t, matWallActual, groupActual);
+
+    // Wall between Pasillo and Bedrooms (z=5)
+    createWall(0, 5, 1.0, t, matWallActual, groupActual);
+    createWall(2.0, 5, 2.0, t, matWallActual, groupActual);
+    createWall(4.8, 5, 1.8, t, matWallActual, groupActual);
+    createWall(7.4, 5, 0.6, t, matWallActual, groupActual);
+
+    createWall(3.5, 5, t, 2.5, matWallActual, groupActual); // Dorm 1 / Dorm 2
+    createWall(6.0, 5, t, 2.5, matWallActual, groupActual); // Dorm 2 / Baño
+
+    // Old furniture in Actual:
+    const oldKGeo = new THREE.BoxGeometry(0.6, 0.85, 2.6);
+    const oldKMesh = new THREE.Mesh(oldKGeo, new THREE.MeshStandardMaterial({ color: 0xB0A898, roughness: 0.6 }));
+    oldKMesh.position.set(7.65 - cx, 0.45, 1.6 - cz);
+    groupActual.add(oldKMesh);
+
+    // Old Bathtub in Bathroom
+    const tubGeo = new THREE.BoxGeometry(0.75, 0.45, 1.5);
+    const tubMesh = new THREE.Mesh(tubGeo, new THREE.MeshStandardMaterial({ color: 0xE2DFD8 }));
+    tubMesh.position.set(7.55 - cx, 0.25, 6.7 - cz);
+    groupActual.add(tubMesh);
+
+    // Doors helper with tagging capability
+    function addDoorMesh(x, z, angle, group, mat, partidaId = null) {
+      const dMat = mat.clone();
+      const dMesh = new THREE.Mesh(new THREE.BoxGeometry(0.78, 1.15, 0.04), dMat);
+      dMesh.userData.origMaterial = dMat;
+      dMesh.userData.origOpacity = dMat.opacity;
+      dMesh.userData.origTransparent = dMat.transparent;
+      dMesh.position.set(0.39, 0.6, 0.02);
+      if (partidaId) {
+        dMesh.userData.partidaId = partidaId;
+        interactiveMeshes.push(dMesh);
+      }
+      const dGroup = new THREE.Group();
+      dGroup.add(dMesh);
+      dGroup.position.set(x - cx, 0, z - cz);
+      dGroup.rotation.y = angle;
+      group.add(dGroup);
+      return dMesh;
+    }
+    addDoorMesh(2.4, 4.0, 0.6, groupActual, matOldDoor);
+    addDoorMesh(6.0, 4.0, 0.6, groupActual, matOldDoor);
+    addDoorMesh(1.1, 5.0, -0.6, groupActual, matOldDoor);
+    addDoorMesh(4.1, 5.0, -0.6, groupActual, matOldDoor);
+    addDoorMesh(6.7, 5.0, -0.5, groupActual, matOldDoor);
+
+    // ---------------- 2. CONSTRUCT REFORMA ----------------
+    // Floors in Reforma: S01 Laminado in 55m2
+    const floorSalon = createFloor(0, 0, 5, 4, matFloorLaminado, groupReforma);
+    const floorCocina = createFloor(5, 0, 3, 4, matFloorLaminado, groupReforma);
+    const floorPasillo = createFloor(0, 4, 8, 1, matFloorLaminado, groupReforma);
+    const floorDorm1 = createFloor(0, 5, 3.5, 2.5, matFloorLaminado, groupReforma);
+    const floorDorm2 = createFloor(3.5, 5, 2.5, 2.5, matFloorLaminado, groupReforma);
+
+    // S02 Porcelánico in Baño (5m2)
+    const floorBano = createFloor(6, 5, 2, 2.5, matFloorPorcelanico, groupReforma);
+
+    floorSalon.userData.partidaId = 'laminado';
+    floorCocina.userData.partidaId = 'laminado';
+    floorPasillo.userData.partidaId = 'laminado';
+    floorDorm1.userData.partidaId = 'laminado';
+    floorDorm2.userData.partidaId = 'laminado';
+    floorBano.userData.partidaId = 'bano_suelo';
+    interactiveMeshes.push(floorSalon, floorCocina, floorPasillo, floorDorm1, floorDorm2, floorBano);
+
+    // Walls Exterior Reforma
+    const w1 = createWall(0, 0, 1.8, t, matWallReforma, groupReforma);
+    const w2 = createWall(3.2, 0, 2.6, t, matWallReforma, groupReforma);
+    const w3 = createWall(7.0, 0, 1.0, t, matWallReforma, groupReforma);
+    createWall(1.8, 0, 1.4, t, matWindowGlass, groupReforma, true);
+    createWall(5.8, 0, 1.2, t, matWindowGlass, groupReforma, true);
+
+    const w4 = createWall(8 - t, 0, t, 5.0, matWallReforma, groupReforma); // East wall salon/cocina
+    const wBanoEast = createWall(8 - t, 5.0, t, 2.5, matWallTile, groupReforma); // East wall baño tile
+    wBanoEast.userData.partidaId = 'bano_azulejos';
+    interactiveMeshes.push(wBanoEast);
+
+    const w5 = createWall(0, 0, t, 7.5, matWallReforma, groupReforma); // West wall
+
+    const w6 = createWall(0, 7.5 - t, 1.0, t, matWallReforma, groupReforma);
+    const w7 = createWall(2.5, 7.5 - t, 2.0, t, matWallReforma, groupReforma);
+    const w8 = createWall(5.5, 7.5 - t, 0.5, t, matWallReforma, groupReforma);
+    const wBanoSouth = createWall(6.0, 7.5 - t, 2.0, t, matWallTile, groupReforma); // South wall baño tile
+    wBanoSouth.userData.partidaId = 'bano_azulejos';
+    interactiveMeshes.push(wBanoSouth);
+
+    createWall(1.0, 7.5 - t, 1.5, t, matWindowGlass, groupReforma, true);
+    createWall(4.5, 7.5 - t, 1.0, t, matWindowGlass, groupReforma, true);
+
+    // Interior walls Reforma:
+    // Tabique between Salón and Cocina is DEMOLISHED! (OPEN SPACE!)
+    // Cargadero metálico A04 at top
+    const matSteelClone = matSteel.clone();
+    const cargaderoGeo = new THREE.BoxGeometry(0.14, 0.16, 4.0);
+    const cargaderoMesh = new THREE.Mesh(cargaderoGeo, matSteelClone);
+    cargaderoMesh.userData.origMaterial = matSteelClone;
+    cargaderoMesh.userData.origOpacity = 1.0;
+    cargaderoMesh.userData.origTransparent = false;
+    cargaderoMesh.position.set(5.0 - cx, currentWallH + 0.08, 2.0 - cz);
+    cargaderoMesh.castShadow = true;
+    cargaderoMesh.userData.partidaId = 'cargadero';
+    groupReforma.add(cargaderoMesh);
+    interactiveMeshes.push(cargaderoMesh);
+
+    // Wall between Salón/Cocina and Pasillo (z=4) - kitchen door eliminated
+    const w9 = createWall(0, 4 - t, 2.4, t, matWallReforma, groupReforma);
+    const w10 = createWall(3.2, 4 - t, 4.8, t, matWallReforma, groupReforma);
+
+    // Bedrooms wall (z=5)
+    const w11 = createWall(0, 5, 1.0, t, matWallReforma, groupReforma);
+    const w12 = createWall(2.0, 5, 2.0, t, matWallReforma, groupReforma);
+    const w13 = createWall(4.8, 5, 1.8, t, matWallReforma, groupReforma);
+    const w14 = createWall(7.4, 5, 0.6, t, matWallReforma, groupReforma);
+    const w15 = createWall(3.5, 5, t, 2.5, matWallReforma, groupReforma);
+
+    const wallBanoTile = createWall(6.0, 5, t, 2.5, matWallTile, groupReforma);
+    wallBanoTile.userData.partidaId = 'bano_azulejos';
+    interactiveMeshes.push(wallBanoTile);
+
+    // Tag all painted walls with 'pintura'
+    [w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15].forEach(w => {
+      w.userData.partidaId = 'pintura';
+      interactiveMeshes.push(w);
+    });
+
+    // KITCHEN IN REFORMA:
+    // 5 ml L-shaped kitchen in Sage green M02 + White quartz E01
+    // North run (3m)
+    const matSageClone1 = matSage.clone();
+    const kNorth = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.86, 0.6), matSageClone1);
+    kNorth.userData.origMaterial = matSageClone1;
+    kNorth.userData.origOpacity = 1.0;
+    kNorth.userData.origTransparent = false;
+    kNorth.position.set(6.6 - cx, 0.43 + 0.06, 0.35 - cz);
+    kNorth.castShadow = true;
+    kNorth.userData.partidaId = 'cocina_muebles';
+    groupReforma.add(kNorth);
+
+    const matQuartzClone1 = matQuartz.clone();
+    const topNorth = new THREE.Mesh(new THREE.BoxGeometry(2.45, 0.04, 0.64), matQuartzClone1);
+    topNorth.userData.origMaterial = matQuartzClone1;
+    topNorth.userData.origOpacity = 1.0;
+    topNorth.userData.origTransparent = false;
+    topNorth.position.set(6.6 - cx, 0.88 + 0.06, 0.35 - cz);
+    topNorth.castShadow = true;
+    topNorth.userData.partidaId = 'encimera';
+    groupReforma.add(topNorth);
+
+    // East run (2m)
+    const matSageClone2 = matSage.clone();
+    const kEast = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.86, 2.0), matSageClone2);
+    kEast.userData.origMaterial = matSageClone2;
+    kEast.userData.origOpacity = 1.0;
+    kEast.userData.origTransparent = false;
+    kEast.position.set(7.65 - cx, 0.43 + 0.06, 1.6 - cz);
+    kEast.castShadow = true;
+    kEast.userData.partidaId = 'cocina_muebles';
+    groupReforma.add(kEast);
+
+    const matQuartzClone2 = matQuartz.clone();
+    const topEast = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.04, 2.0), matQuartzClone2);
+    topEast.userData.origMaterial = matQuartzClone2;
+    topEast.userData.origOpacity = 1.0;
+    topEast.userData.origTransparent = false;
+    topEast.position.set(7.65 - cx, 0.88 + 0.06, 1.6 - cz);
+    topEast.castShadow = true;
+    topEast.userData.partidaId = 'encimera';
+    groupReforma.add(topEast);
+
+    interactiveMeshes.push(kNorth, kEast, topNorth, topEast);
+
+    // PENÍNSULA (2 ml) K02 + E01
+    const matSageClone3 = matSage.clone();
+    const penBase = new THREE.Mesh(new THREE.BoxGeometry(0.80, 0.86, 2.0), matSageClone3);
+    penBase.userData.origMaterial = matSageClone3;
+    penBase.userData.origOpacity = 1.0;
+    penBase.userData.origTransparent = false;
+    penBase.position.set(5.0 - cx, 0.43 + 0.06, 2.5 - cz);
+    penBase.castShadow = true;
+    penBase.userData.partidaId = 'peninsula';
+    groupReforma.add(penBase);
+
+    const matQuartzClone3 = matQuartz.clone();
+    const penTop = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.04, 2.05), matQuartzClone3);
+    penTop.userData.origMaterial = matQuartzClone3;
+    penTop.userData.origOpacity = 1.0;
+    penTop.userData.origTransparent = false;
+    penTop.position.set(5.0 - cx, 0.88 + 0.06, 2.5 - cz);
+    penTop.castShadow = true;
+    penTop.userData.partidaId = 'encimera';
+    groupReforma.add(penTop);
+
+    interactiveMeshes.push(penBase, penTop);
+
+    // BATHROOM IN REFORMA:
+    // Shower tray B01
+    const matWhiteShower = new THREE.MeshStandardMaterial({ color: 0xFFFFFF });
+    const showerTray = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.04, 1.20), matWhiteShower);
+    showerTray.userData.origMaterial = matWhiteShower;
+    showerTray.userData.origOpacity = 1.0;
+    showerTray.userData.origTransparent = false;
+    showerTray.position.set(7.55 - cx, 0.08, 6.85 - cz);
+    showerTray.userData.partidaId = 'ducha';
+    groupReforma.add(showerTray);
+
+    // Shower glass screen
+    const matGlassClone = matGlass.clone();
+    const showerScreen = new THREE.Mesh(new THREE.BoxGeometry(0.02, 1.15, 1.0), matGlassClone);
+    showerScreen.userData.origMaterial = matGlassClone;
+    showerScreen.userData.origOpacity = 1.0;
+    showerScreen.userData.origTransparent = true;
+    showerScreen.position.set(7.18 - cx, 0.65, 6.85 - cz);
+    showerScreen.userData.partidaId = 'ducha';
+    groupReforma.add(showerScreen);
+
+    // Compact Toilet B02
+    const toiletMesh = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.42, 0.58), new THREE.MeshStandardMaterial({ color: 0xFFFFFF }));
+    toiletMesh.userData.origOpacity = 1.0;
+    toiletMesh.position.set(6.4 - cx, 0.27, 7.15 - cz);
+    groupReforma.add(toiletMesh);
+
+    // Vanity unit B03
+    const vanityMesh = new THREE.Mesh(new THREE.BoxGeometry(0.80, 0.50, 0.48), new THREE.MeshStandardMaterial({ color: 0xC8A47A }));
+    vanityMesh.userData.origOpacity = 1.0;
+    vanityMesh.position.set(6.6 - cx, 0.60, 5.35 - cz);
+    groupReforma.add(vanityMesh);
+
+    const mirrorMesh = new THREE.Mesh(new THREE.BoxGeometry(0.70, 0.55, 0.02), new THREE.MeshStandardMaterial({ color: 0xEEF8F8, roughness: 0.1, metalness: 0.9 }));
+    mirrorMesh.userData.origOpacity = 1.0;
+    mirrorMesh.position.set(6.6 - cx, 1.05, 5.12 - cz);
+    groupReforma.add(mirrorMesh);
+
+    interactiveMeshes.push(showerTray, showerScreen);
+
+    // White doors in Reforma C01
+    addDoorMesh(2.4, 4.0, 0.6, groupReforma, matWhiteDoor, 'puertas');
+    addDoorMesh(1.1, 5.0, -0.6, groupReforma, matWhiteDoor, 'puertas');
+    addDoorMesh(4.1, 5.0, -0.6, groupReforma, matWhiteDoor, 'puertas');
+    addDoorMesh(6.7, 5.0, -0.5, groupReforma, matWhiteDoor, 'puertas');
+
+    // Baseboards (Rodapié R05)
+    const matRodapie = new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.35 });
+    function addRodapie(x, z, w, l) {
+      const rGeo = new THREE.BoxGeometry(w, 0.08, l);
+      const rMat = matRodapie.clone();
+      const rMesh = new THREE.Mesh(rGeo, rMat);
+      rMesh.userData.origMaterial = rMat;
+      rMesh.userData.origOpacity = 1.0;
+      rMesh.userData.origTransparent = false;
+      rMesh.userData.partidaId = 'rodapie';
+      rMesh.position.set(x + w / 2 - cx, 0.04 + 0.06, z + l / 2 - cz);
+      groupReforma.add(rMesh);
+      interactiveMeshes.push(rMesh);
+      return rMesh;
+    }
+
+    addRodapie(0.04, 0.04, 0.03, 3.92);
+    addRodapie(0.04, 0.04, 4.92, 0.03);
+    addRodapie(0.04, 3.94, 2.36, 0.03);
+    addRodapie(0.04, 5.04, 0.03, 2.42);
+    addRodapie(0.04, 7.44, 3.42, 0.03);
+    addRodapie(3.44, 5.04, 0.03, 2.42);
+    addRodapie(5.94, 5.04, 0.03, 2.42);
+    addRodapie(3.54, 7.44, 2.42, 0.03);
+    addRodapie(0.04, 4.94, 7.92, 0.03);
+
+    // Safety pass: ensure all Reforma meshes store their original opacity and transparency
+    groupReforma.traverse((child) => {
+      if (child.isMesh && child.material) {
+        if (child.userData.origOpacity === undefined) {
+          child.userData.origOpacity = child.material.opacity;
+        }
+        if (child.userData.origTransparent === undefined) {
+          child.userData.origTransparent = child.material.transparent;
+        }
+      }
+    });
+
+    // ---------------- 3. FLOATING ROOM TAGS (CANVAS SPRITES) ----------------
+    function createRoomSprite(title, area) {
+      const c = document.createElement('canvas');
+      c.width = 256;
+      c.height = 128;
+      const ctx = c.getContext('2d');
+
+      // Rounded rect pill tag with sleek architectural styling
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.roundRect(14, 14, 228, 100, 18);
+      ctx.fill();
+      ctx.stroke();
+
+      // Text
+      ctx.fillStyle = '#0F172A';
+      ctx.font = 'bold 28px Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(title, 128, 54);
+
+      ctx.fillStyle = '#64748B';
+      ctx.font = '600 22px Segoe UI, sans-serif';
+      ctx.fillText(area, 128, 90);
+
+      const texture = new THREE.CanvasTexture(c);
+      const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
+      const sprite = new THREE.Sprite(spriteMat);
+      sprite.scale.set(1.1, 0.55, 1);
+      return sprite;
+    }
+
+    const roomsData = [
+      { name: 'Salón', area: '20 m²', x: 2.5, z: 2.0, id: 'general' },
+      { name: 'Cocina', area: '12 m²', x: 6.5, z: 2.0, id: 'cocina' },
+      { name: 'Pasillo', area: '8 m²', x: 4.0, z: 4.5, id: 'pasillo' },
+      { name: 'Dormitorio 1', area: '8,75 m²', x: 1.75, z: 6.25, id: 'dorm1' },
+      { name: 'Dormitorio 2', area: '6,25 m²', x: 4.75, z: 6.25, id: 'dorm2' },
+      { name: 'Baño', area: '5 m²', x: 7.0, z: 6.25, id: 'bano' }
+    ];
+
+    roomsData.forEach(r => {
+      const sp = createRoomSprite(r.name, r.area);
+      // Floats at 1.55m above floor so the floor materials and planks are 100% visible
+      sp.position.set(r.x - cx, 1.55, r.z - cz);
+      groupLabels.add(sp);
+    });
+
+    let labelsVisible = true;
+    function toggleLabels() {
+      labelsVisible = !labelsVisible;
+      groupLabels.visible = labelsVisible;
+      const btn = document.getElementById('btnToggleLabels');
+      if (btn) {
+        btn.classList.toggle('active', labelsVisible);
+      }
+    }
+
+    // Camera Presets will be configured below
+
+    // ---------------- CAMERA & VIEWS ----------------
+    const cameraPresets = {
+      general: {
+        pos: new THREE.Vector3(7.5, 9.5, 8.5),
+        target: new THREE.Vector3(0, 0.5, 0)
+      },
+      cocina: {
+        pos: new THREE.Vector3(1.8, 3.5, 2.5),
+        target: new THREE.Vector3(2.5, 0.9, -1.8)
+      },
+      bano: {
+        pos: new THREE.Vector3(2.0, 3.8, 5.2),
+        target: new THREE.Vector3(3.0, 0.8, 2.5)
+      },
+      dorm1: {
+        pos: new THREE.Vector3(-1.5, 4.0, 7.5),
+        target: new THREE.Vector3(-2.2, 0.8, 2.5)
+      },
+      dorm2: {
+        pos: new THREE.Vector3(1.5, 4.0, 7.5),
+        target: new THREE.Vector3(0.8, 0.8, 2.5)
+      },
+      pasillo: {
+        pos: new THREE.Vector3(4.0, 4.5, 4.0),
+        target: new THREE.Vector3(0, 0.8, 0.8)
+      },
+      firstPerson: {
+        pos: new THREE.Vector3(-0.5, 1.6, -0.5),
+        target: new THREE.Vector3(2.0, 1.4, -1.5)
+      }
+    };
+
+    camera.position.copy(cameraPresets.general.pos);
+    controls.target.copy(cameraPresets.general.target);
+
+    function tweenCamera(targetPos, targetLookAt, duration = 1000) {
+      new TWEEN.Tween(camera.position)
+        .to(targetPos, duration)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .start();
+
+      new TWEEN.Tween(controls.target)
+        .to(targetLookAt, duration)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .start();
+    }
+
+    function resetToGeneralView() {
+      document.querySelectorAll('.btn-nav-pill').forEach(b => b.classList.remove('active'));
+      document.getElementById('btnViewGeneral').classList.add('active');
+      document.getElementById('selectRoom').value = 'general';
+      clearSelection();
+      tweenCamera(cameraPresets.general.pos, cameraPresets.general.target);
+    }
+
+    function enterFirstPersonView() {
+      document.querySelectorAll('.btn-nav-pill').forEach(b => b.classList.remove('active'));
+      document.getElementById('btnEnterFloor').classList.add('active');
+      tweenCamera(cameraPresets.firstPerson.pos, cameraPresets.firstPerson.target, 1200);
+    }
+
+    function onRoomSelected(roomId) {
+      const preset = cameraPresets[roomId] || cameraPresets.general;
+      tweenCamera(preset.pos, preset.target, 900);
+    }
+
+    // ---------------- STATE SWITCHER (ACTUAL vs REFORMA) ----------------
+    let currentState = 'reforma';
+    function setRenovationState(state) {
+      currentState = state;
+      const btnActual = document.getElementById('btnStateActual');
+      const btnReforma = document.getElementById('btnStateReforma');
+      const infoActual = document.getElementById('stateInfoActual');
+      const infoReforma = document.getElementById('stateInfoReforma');
+
+      if (state === 'actual') {
+        btnActual.classList.add('active');
+        btnReforma.classList.remove('active');
+        infoActual.style.display = 'block';
+        infoReforma.style.display = 'none';
+        groupActual.visible = true;
+        groupReforma.visible = false;
+      } else {
+        btnReforma.classList.add('active');
+        btnActual.classList.remove('active');
+        infoActual.style.display = 'none';
+        infoReforma.style.display = 'block';
+        groupActual.visible = false;
+        groupReforma.visible = true;
+      }
+      clearSelection();
+    }
+
+    // ---------------- WALL HEIGHT SLIDER ----------------
+    function onWallHeightChange(val) {
+      currentWallH = parseFloat(val);
+      dynamicWalls.forEach(mesh => {
+        mesh.scale.y = currentWallH / 1.3;
+        mesh.position.y = (currentWallH / 2) + 0.06;
+      });
+      cargaderoMesh.position.y = currentWallH + 0.08;
+    }
+
+    // ---------------- 3D BEACON MARKER (FLOATING HIGHLIGHT INDICATOR) ----------------
+    const highlightMarker = new THREE.Group();
+
+    // Torus Ring
+    const markerRingGeo = new THREE.TorusGeometry(0.36, 0.038, 16, 32);
+    const markerRingMat = new THREE.MeshBasicMaterial({ color: 0xF59E0B });
+    const markerRing = new THREE.Mesh(markerRingGeo, markerRingMat);
+    markerRing.rotation.x = Math.PI / 2;
+    highlightMarker.add(markerRing);
+
+    // Downward Pin Cone
+    const markerConeGeo = new THREE.ConeGeometry(0.18, 0.38, 16);
+    const markerConeMat = new THREE.MeshBasicMaterial({ color: 0xD97706 });
+    const markerCone = new THREE.Mesh(markerConeGeo, markerConeMat);
+    markerCone.position.y = -0.25;
+    markerCone.rotation.x = Math.PI; // Inverted, pointing down
+    highlightMarker.add(markerCone);
+
+    // Core Sphere
+    const markerCoreGeo = new THREE.SphereGeometry(0.11, 16, 16);
+    const markerCoreMat = new THREE.MeshBasicMaterial({ color: 0xFEF3C7 });
+    const markerCore = new THREE.Mesh(markerCoreGeo, markerCoreMat);
+    highlightMarker.add(markerCore);
+
+    highlightMarker.visible = false;
+    scene.add(highlightMarker);
+
+    // ---------------- INTERVENTION & SELECTION LOGIC ----------------
+    let currentlyHighlightedMeshes = [];
+    let selectedInterventionId = null;
+
+    function applyHighlight(id) {
+      selectedInterventionId = id;
+      currentlyHighlightedMeshes = [];
+
+      const item = interventionsData.find(d => d.id === id);
+      if (!item) return;
+
+      // 1. Highlight matching meshes and ghost unselected ones
+      groupReforma.traverse((child) => {
+        if (child.isMesh) {
+          const isMatch = (child.userData && child.userData.partidaId === id);
+          if (isMatch) {
+            child.material.transparent = false;
+            child.material.opacity = 1.0;
+            if (child.material.emissive) {
+              child.material.emissive.setHex(0xF59E0B);
+              child.material.emissiveIntensity = 0.85;
+            }
+            currentlyHighlightedMeshes.push(child);
+          } else {
+            child.material.transparent = true;
+            child.material.opacity = 0.28;
+            if (child.material.emissive) {
+              child.material.emissive.setHex(0x000000);
+              child.material.emissiveIntensity = 0;
+            }
+          }
+        } else if (child.isLineSegments) {
+          child.material.transparent = true;
+          child.material.opacity = 0.25;
+        }
+      });
+
+      // 2. Hide room tags to prevent visual obstruction
+      groupLabels.visible = false;
+
+      // 3. Position and show 3D beacon marker
+      if (highlightMarker) {
+        const markerY = Math.max(item.cameraTarget.y + 0.65, 1.4);
+        highlightMarker.position.set(item.cameraTarget.x, markerY, item.cameraTarget.z);
+        highlightMarker.userData.baseY = markerY;
+        highlightMarker.visible = true;
+      }
+
+      // 4. Update bottom info card
+      const bottomTitle = document.getElementById('bottomInfoTitle');
+      const bottomDesc = document.getElementById('bottomInfoDesc');
+      const btnReset = document.getElementById('btnResetSelection');
+      if (bottomTitle) bottomTitle.innerText = item.title;
+      if (bottomDesc) bottomDesc.innerHTML = `<span style="color:#D97706; font-weight:700;">● Destacado en 3D</span> · ${item.calc} = <strong>${item.total}</strong>`;
+      if (btnReset) btnReset.style.display = 'inline-block';
+    }
+
+    function clearSelection() {
+      selectedInterventionId = null;
+      currentlyHighlightedMeshes = [];
+
+      document.querySelectorAll('.intervention-card').forEach(c => c.classList.remove('active'));
+      const detailPanel = document.getElementById('detailPanel');
+      if (detailPanel) detailPanel.classList.remove('visible');
+
+      // Restore all original materials & opacities
+      groupReforma.traverse((child) => {
+        if (child.isMesh) {
+          child.material.transparent = child.userData.origTransparent !== undefined ? child.userData.origTransparent : false;
+          child.material.opacity = child.userData.origOpacity !== undefined ? child.userData.origOpacity : 1.0;
+          if (child.material.emissive) {
+            child.material.emissive.setHex(0x000000);
+            child.material.emissiveIntensity = 0;
+          }
+        } else if (child.isLineSegments) {
+          child.material.transparent = false;
+          child.material.opacity = 1.0;
+        }
+      });
+
+      // Show room tags again according to user toggle preference
+      groupLabels.visible = labelsVisible;
+
+      // Hide 3D marker
+      if (highlightMarker) {
+        highlightMarker.visible = false;
+      }
+
+      // Reset bottom info card
+      const bottomTitle = document.getElementById('bottomInfoTitle');
+      const bottomDesc = document.getElementById('bottomInfoDesc');
+      const btnReset = document.getElementById('btnResetSelection');
+      if (bottomTitle) bottomTitle.innerText = 'Explora la reforma';
+      if (bottomDesc) bottomDesc.innerText = 'Arrastra para girar · Rueda para acercarte · Pulsa un elemento para ver su partida';
+      if (btnReset) btnReset.style.display = 'none';
+    }
+
+    function selectIntervention(id) {
+      const item = interventionsData.find(d => d.id === id);
+      if (!item) return;
+
+      // Ensure we are in Reforma mode to see new elements
+      if (currentState !== 'reforma') {
+        setRenovationState('reforma');
+      }
+
+      // Highlight card in sidebar
+      document.querySelectorAll('.intervention-card').forEach(c => c.classList.remove('active'));
+      const activeCard = document.getElementById('card-' + id);
+      if (activeCard) {
+        activeCard.classList.add('active');
+        activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Show detail panel
+      document.getElementById('detailTrade').innerText = item.trade;
+      document.getElementById('detailTitle').innerText = item.title;
+      document.getElementById('detailDesc').innerText = item.desc;
+      document.getElementById('detailCalc').innerText = item.calc;
+      document.getElementById('detailTotal').innerText = item.total;
+      document.getElementById('detailPanel').classList.add('visible');
+
+      // Apply the visual 3D highlight (glow + ghost other meshes + beacon)
+      applyHighlight(id);
+
+      // Animate camera to focus on this element
+      tweenCamera(item.cameraPos, item.cameraTarget, 800);
+    }
+
+    function highlightByCode(code) {
+      const matched = interventionsData.filter(i => i.code === code);
+      if (matched.length > 0) {
+        selectIntervention(matched[0].id);
+      }
+    }
+
+    // ---------------- RAYCASTING (CLICK ON 3D ELEMENTS) ----------------
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    // Canvas cursor pointer on hover
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) return;
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const visibleInteractive = interactiveMeshes.filter(m => m.parent && m.parent.visible);
+      const intersects = raycaster.intersectObjects(visibleInteractive);
+      canvas.style.cursor = (intersects.length > 0) ? 'pointer' : 'default';
+    });
+
+    window.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) return;
+
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const visibleInteractive = interactiveMeshes.filter(m => m.parent && m.parent.visible);
+      const intersects = raycaster.intersectObjects(visibleInteractive);
+
+      if (intersects.length > 0) {
+        const hit = intersects[0].object;
+        if (hit.userData && hit.userData.partidaId) {
+          selectIntervention(hit.userData.partidaId);
+        }
+      }
+    });
+
+    // ---------------- GUIDED TOUR ----------------
+    let isTourRunning = false;
+    let tourStep = 0;
+    const tourWaypoints = [
+      cameraPresets.general,
+      cameraPresets.cocina,
+      cameraPresets.bano,
+      cameraPresets.dorm1,
+      cameraPresets.dorm2,
+      cameraPresets.general
+    ];
+
+    function toggleGuidedTour() {
+      const btn = document.getElementById('btnGuidedTour');
+      if (isTourRunning) {
+        isTourRunning = false;
+        btn.innerHTML = '<span>▶️</span> Recorrido guiado';
+        btn.classList.remove('active');
+      } else {
+        isTourRunning = true;
+        btn.innerHTML = '<span>⏸️</span> Pausar recorrido';
+        btn.classList.add('active');
+        tourStep = 0;
+        runTourStep();
+      }
+    }
+
+    function runTourStep() {
+      if (!isTourRunning) return;
+      const wp = tourWaypoints[tourStep];
+      tweenCamera(wp.pos, wp.target, 2800);
+
+      setTimeout(() => {
+        if (!isTourRunning) return;
+        tourStep = (tourStep + 1) % tourWaypoints.length;
+        if (tourStep === 0) {
+          toggleGuidedTour(); // Tour completed
+        } else {
+          runTourStep();
+        }
+      }, 3500);
+    }
+
+    // ---------------- RESIZE HANDLER ----------------
+    function handleResize() {
+      const d = getViewportDims();
+      camera.aspect = d.width / d.height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(d.width, d.height);
+    }
+    window.addEventListener('resize', handleResize);
+
+    // ---------------- ANIMATION LOOP ----------------
+    function animate(time) {
+      requestAnimationFrame(animate);
+      if (typeof TWEEN !== 'undefined' && TWEEN.update) {
+        TWEEN.update(time);
+      }
+      controls.update();
+
+      // Pulsate highlighted meshes with dynamic emissive glow
+      if (currentlyHighlightedMeshes.length > 0) {
+        const pulse = 0.65 + 0.35 * Math.sin(time * 0.006);
+        for (let i = 0; i < currentlyHighlightedMeshes.length; i++) {
+          const m = currentlyHighlightedMeshes[i];
+          if (m.material && m.material.emissiveIntensity !== undefined) {
+            m.material.emissiveIntensity = pulse;
+          }
+        }
+      }
+
+      // Floating beacon rotation & bounce
+      if (highlightMarker && highlightMarker.visible) {
+        highlightMarker.rotation.y += 0.035;
+        highlightMarker.position.y = highlightMarker.userData.baseY + Math.sin(time * 0.005) * 0.12;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    // ---------------- START APPLICATION ----------------
+    animate();
+    setRenovationState('reforma');
+    handleResize();
+    setTimeout(handleResize, 150);
+  </script>
+</body>
+</html>
