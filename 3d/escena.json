@@ -1,0 +1,1060 @@
+{
+ "proyecto": {
+  "titulo": "Piso García",
+  "ubicacion": "Ruzafa, Valencia",
+  "superficie": "60 m²",
+  "total": "22.792,00 €",
+  "fecha": "20/09/2026",
+  "presupuesto_html": "presupuesto_garcia.html"
+ },
+ "_notas": [
+  "Coordenadas de planta en metros: origen esquina noroeste interior, x hacia el este, y hacia el sur (igual que mediciones.xlsx).",
+  "Posición de puertas y ventanas medida sobre plano.png (no están acotadas). Alturas de huecos y espesor de fachada: valores estándar supuestos."
+ ],
+ "altura": 2.6,
+ "estancias": [
+  {
+   "id": "salon",
+   "nombre": "Salón",
+   "x": 0,
+   "y": 0,
+   "ancho": 5,
+   "largo": 4,
+   "area": "20 m²",
+   "suelo": {
+    "actual": "OLD_TERRAZO",
+    "reforma": "S01"
+   },
+   "pared": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   },
+   "techo": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   }
+  },
+  {
+   "id": "cocina",
+   "nombre": "Cocina",
+   "x": 5,
+   "y": 0,
+   "ancho": 3,
+   "largo": 4,
+   "area": "12 m²",
+   "suelo": {
+    "actual": "OLD_TERRAZO",
+    "reforma": "S01"
+   },
+   "pared": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   },
+   "techo": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   }
+  },
+  {
+   "id": "pasillo",
+   "nombre": "Pasillo",
+   "x": 0,
+   "y": 4,
+   "ancho": 8,
+   "largo": 1,
+   "area": "8 m²",
+   "suelo": {
+    "actual": "OLD_TERRAZO",
+    "reforma": "S01"
+   },
+   "pared": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   },
+   "techo": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   }
+  },
+  {
+   "id": "dorm1",
+   "nombre": "Dormitorio 1",
+   "x": 0,
+   "y": 5,
+   "ancho": 3.5,
+   "largo": 2.5,
+   "area": "8,75 m²",
+   "suelo": {
+    "actual": "OLD_TERRAZO",
+    "reforma": "S01"
+   },
+   "pared": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   },
+   "techo": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   }
+  },
+  {
+   "id": "dorm2",
+   "nombre": "Dormitorio 2",
+   "x": 3.5,
+   "y": 5,
+   "ancho": 2.5,
+   "largo": 2.5,
+   "area": "6,25 m²",
+   "suelo": {
+    "actual": "OLD_TERRAZO",
+    "reforma": "S01"
+   },
+   "pared": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   },
+   "techo": {
+    "actual": "PINT_VIEJA",
+    "reforma": "P03"
+   }
+  },
+  {
+   "id": "bano",
+   "nombre": "Baño",
+   "x": 6,
+   "y": 5,
+   "ancho": 2,
+   "largo": 2.5,
+   "area": "5 m²",
+   "suelo": {
+    "actual": "OLD_BANO_SUELO",
+    "reforma": "S02"
+   },
+   "pared": {
+    "actual": "OLD_BANO_PARED",
+    "reforma": "P01"
+   },
+   "techo": {
+    "actual": "PINT_VIEJA",
+    "reforma": "TECHO_BANO"
+   }
+  }
+ ],
+ "muros": [
+  {
+   "id": "fachada_norte",
+   "a": [
+    -0.25,
+    -0.125
+   ],
+   "b": [
+    8.25,
+    -0.125
+   ],
+   "espesor": 0.25,
+   "huecos": [
+    {
+     "tipo": "ventana",
+     "desde": 1.5,
+     "hasta": 3.4,
+     "antepecho": 0.9,
+     "dintel": 2.2
+    },
+    {
+     "tipo": "ventana",
+     "desde": 5.8,
+     "hasta": 7.0,
+     "antepecho": 0.9,
+     "dintel": 2.2
+    }
+   ]
+  },
+  {
+   "id": "fachada_sur",
+   "a": [
+    -0.25,
+    7.625
+   ],
+   "b": [
+    8.25,
+    7.625
+   ],
+   "espesor": 0.25,
+   "huecos": [
+    {
+     "tipo": "ventana",
+     "desde": 1.0,
+     "hasta": 2.4,
+     "antepecho": 0.9,
+     "dintel": 2.2
+    },
+    {
+     "tipo": "ventana",
+     "desde": 4.0,
+     "hasta": 5.2,
+     "antepecho": 0.9,
+     "dintel": 2.2
+    }
+   ]
+  },
+  {
+   "id": "fachada_oeste",
+   "a": [
+    -0.125,
+    0
+   ],
+   "b": [
+    -0.125,
+    7.5
+   ],
+   "espesor": 0.25,
+   "huecos": []
+  },
+  {
+   "id": "fachada_este",
+   "a": [
+    8.125,
+    0
+   ],
+   "b": [
+    8.125,
+    7.5
+   ],
+   "espesor": 0.25,
+   "huecos": [
+    {
+     "tipo": "ventana",
+     "desde": 5.9,
+     "hasta": 6.5,
+     "antepecho": 1.3,
+     "dintel": 2.2
+    }
+   ]
+  },
+  {
+   "id": "pasillo_norte",
+   "a": [
+    0,
+    4
+   ],
+   "b": [
+    8,
+    4
+   ],
+   "espesor": 0.1,
+   "huecos": [
+    {
+     "tipo": "puerta",
+     "desde": 2.0,
+     "hasta": 2.8,
+     "dintel": 2.1,
+     "bisagra": "a",
+     "abre": -1,
+     "hoja": {
+      "actual": "OLD_PUERTA",
+      "reforma": "C01"
+     }
+    },
+    {
+     "tipo": "puerta",
+     "desde": 6.0,
+     "hasta": 6.8,
+     "dintel": 2.1,
+     "bisagra": "b",
+     "abre": -1,
+     "hoja": {
+      "actual": "OLD_PUERTA"
+     },
+     "escenarios": [
+      "actual"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pasillo_sur",
+   "a": [
+    0,
+    5
+   ],
+   "b": [
+    8,
+    5
+   ],
+   "espesor": 0.1,
+   "huecos": [
+    {
+     "tipo": "puerta",
+     "desde": 2.3,
+     "hasta": 3.1,
+     "dintel": 2.1,
+     "bisagra": "b",
+     "abre": 1,
+     "hoja": {
+      "actual": "OLD_PUERTA",
+      "reforma": "C01"
+     }
+    },
+    {
+     "tipo": "puerta",
+     "desde": 4.2,
+     "hasta": 5.0,
+     "dintel": 2.1,
+     "bisagra": "a",
+     "abre": 1,
+     "hoja": {
+      "actual": "OLD_PUERTA",
+      "reforma": "C01"
+     }
+    },
+    {
+     "tipo": "puerta",
+     "desde": 6.6,
+     "hasta": 7.3,
+     "dintel": 2.1,
+     "bisagra": "a",
+     "abre": 1,
+     "hoja": {
+      "actual": "OLD_PUERTA",
+      "reforma": "C01"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tabique_cocina",
+   "a": [
+    5,
+    0
+   ],
+   "b": [
+    5,
+    3.95
+   ],
+   "espesor": 0.1,
+   "escenarios": [
+    "actual"
+   ],
+   "huecos": []
+  },
+  {
+   "id": "tabique_dormitorios",
+   "a": [
+    3.5,
+    5.05
+   ],
+   "b": [
+    3.5,
+    7.5
+   ],
+   "espesor": 0.1,
+   "huecos": []
+  },
+  {
+   "id": "tabique_bano",
+   "a": [
+    6,
+    5.05
+   ],
+   "b": [
+    6,
+    7.5
+   ],
+   "espesor": 0.1,
+   "huecos": []
+  }
+ ],
+ "rodapie": {
+  "material": "R05",
+  "escenarios": [
+   "reforma"
+  ],
+  "suelos": [
+   "S01"
+  ],
+  "excluir": [
+   [
+    4.3,
+    0,
+    8,
+    2.7
+   ]
+  ]
+ },
+ "partidas_por_material": {
+  "reforma": {
+   "S01": "laminado",
+   "S02": "bano_suelo",
+   "P01": "bano_azulejos",
+   "P03": "pintura",
+   "R05": "rodapie",
+   "C01": "puertas",
+   "E01": "encimera",
+   "M02": "cocina_muebles"
+  }
+ },
+ "objetos": [
+  {
+   "tipo": "sofa",
+   "pos": [
+    0.5,
+    2.0
+   ],
+   "rot": 90,
+   "ancho": 2.2,
+   "fondo": 0.95
+  },
+  {
+   "tipo": "alfombra",
+   "pos": [
+    1.95,
+    2.0
+   ],
+   "rot": 90,
+   "ancho": 2.4,
+   "fondo": 1.9
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "modern_coffee_table_01",
+   "pos": [
+    1.9,
+    2.0
+   ],
+   "rot": 90
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "mid_century_lounge_chair",
+   "pos": [
+    3.2,
+    0.95
+   ],
+   "rot": -60
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "side_table_01",
+   "pos": [
+    0.35,
+    0.5
+   ],
+   "rot": 0
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "potted_plant_02",
+   "pos": [
+    0.45,
+    3.5
+   ],
+   "rot": 30
+  },
+  {
+   "tipo": "cuadro",
+   "pos": [
+    0.0,
+    2.0
+   ],
+   "z": 1.6,
+   "rot": 90,
+   "ancho": 1.1,
+   "alto": 0.75,
+   "arte": "ARTE_1"
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "modern_ceiling_lamp_01",
+   "pos": [
+    2.0,
+    2.0
+   ],
+   "techo": true,
+   "escenarios": [
+    "actual"
+   ]
+  },
+  {
+   "tipo": "mueble_bajo",
+   "pos": [
+    6.5,
+    0.3
+   ],
+   "rot": 0,
+   "largo": 3.0,
+   "fondo": 0.6,
+   "frente": "M02",
+   "encimera": "E01",
+   "fregadero": 0.0,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "mueble_bajo",
+   "pos": [
+    7.7,
+    1.6
+   ],
+   "rot": -90,
+   "largo": 2.0,
+   "fondo": 0.6,
+   "frente": "M02",
+   "encimera": "E01",
+   "placa": 0.0,
+   "escenarios": [
+    "reforma"
+   ],
+   "encimera_desde": 0.0
+  },
+  {
+   "tipo": "peninsula",
+   "pos": [
+    4.95,
+    1.6
+   ],
+   "rot": -90,
+   "largo": 2.0,
+   "fondo": 0.8,
+   "vuelo": 0.25,
+   "frente": "M02",
+   "encimera": "E01",
+   "partida": "peninsula",
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "taburete",
+   "pos": [
+    4.2,
+    1.1
+   ],
+   "rot": 90,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "taburete",
+   "pos": [
+    4.2,
+    2.1
+   ],
+   "rot": 90,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "modern_ceiling_lamp_01",
+   "pos": [
+    4.95,
+    1.1
+   ],
+   "techo": true,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "modern_ceiling_lamp_01",
+   "pos": [
+    4.95,
+    2.1
+   ],
+   "techo": true,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "potted_plant_04",
+   "pos": [
+    7.72,
+    2.3
+   ],
+   "z": 0.92,
+   "rot": 0,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "cargadero",
+   "a": [
+    5.0,
+    0.0
+   ],
+   "b": [
+    5.0,
+    4.0
+   ],
+   "partida": "cargadero",
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "mueble_bajo",
+   "pos": [
+    6.5,
+    0.3
+   ],
+   "rot": 0,
+   "largo": 3.0,
+   "fondo": 0.6,
+   "frente": "OLD_COCINA",
+   "encimera": "OLD_ENCIMERA",
+   "fregadero": 0.0,
+   "escenarios": [
+    "actual"
+   ]
+  },
+  {
+   "tipo": "mueble_bajo",
+   "pos": [
+    7.7,
+    1.6
+   ],
+   "rot": -90,
+   "largo": 2.0,
+   "fondo": 0.6,
+   "frente": "OLD_COCINA",
+   "encimera": "OLD_ENCIMERA",
+   "placa": 0.0,
+   "escenarios": [
+    "actual"
+   ]
+  },
+  {
+   "tipo": "cama",
+   "pos": [
+    1.12,
+    6.25
+   ],
+   "rot": 90,
+   "ancho": 1.5,
+   "largo": 2.05
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "side_table_01",
+   "pos": [
+    0.3,
+    5.25
+   ],
+   "rot": 90
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "side_table_01",
+   "pos": [
+    0.3,
+    7.25
+   ],
+   "rot": 90
+  },
+  {
+   "tipo": "cuadro",
+   "pos": [
+    0.0,
+    6.25
+   ],
+   "z": 1.55,
+   "rot": 90,
+   "ancho": 0.9,
+   "alto": 0.6,
+   "arte": "ARTE_2"
+  },
+  {
+   "tipo": "cama",
+   "pos": [
+    5.45,
+    6.09
+   ],
+   "rot": 0,
+   "ancho": 0.9,
+   "largo": 1.9
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "side_table_01",
+   "pos": [
+    3.85,
+    7.2
+   ],
+   "rot": 0
+  },
+  {
+   "tipo": "modelo",
+   "nombre": "potted_plant_04",
+   "pos": [
+    3.85,
+    7.2
+   ],
+   "z": 0.55,
+   "rot": 0
+  },
+  {
+   "tipo": "alfombra",
+   "pos": [
+    4.45,
+    6.4
+   ],
+   "rot": 0,
+   "ancho": 1.2,
+   "fondo": 1.7
+  },
+  {
+   "tipo": "plato_ducha",
+   "x0": 7.2,
+   "y0": 6.3,
+   "x1": 8.0,
+   "y1": 7.5,
+   "partida": "ducha",
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "mampara",
+   "a": [
+    7.2,
+    6.6
+   ],
+   "b": [
+    7.2,
+    7.5
+   ],
+   "alto": 2.0,
+   "partida": "ducha",
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "rociador",
+   "pos": [
+    7.85,
+    6.9
+   ],
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "inodoro",
+   "pos": [
+    6.55,
+    7.18
+   ],
+   "rot": 180,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "mueble_lavabo",
+   "pos": [
+    6.28,
+    6.3
+   ],
+   "rot": 90,
+   "ancho": 0.8,
+   "fondo": 0.46,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "espejo",
+   "pos": [
+    6.05,
+    6.3
+   ],
+   "z": 1.5,
+   "rot": 90,
+   "ancho": 0.7,
+   "alto": 0.8,
+   "escenarios": [
+    "reforma"
+   ]
+  },
+  {
+   "tipo": "banera",
+   "x0": 6.3,
+   "y0": 6.8,
+   "x1": 8.0,
+   "y1": 7.5,
+   "escenarios": [
+    "actual"
+   ]
+  },
+  {
+   "tipo": "lavabo_pie",
+   "pos": [
+    6.3,
+    6.0
+   ],
+   "rot": 90,
+   "escenarios": [
+    "actual"
+   ]
+  },
+  {
+   "tipo": "inodoro",
+   "pos": [
+    7.68,
+    6.1
+   ],
+   "rot": -90,
+   "escenarios": [
+    "actual"
+   ]
+  },
+  {
+   "tipo": "espejo",
+   "pos": [
+    6.05,
+    6.0
+   ],
+   "z": 1.5,
+   "rot": 90,
+   "ancho": 0.5,
+   "alto": 0.6,
+   "escenarios": [
+    "actual"
+   ]
+  }
+ ],
+ "opciones": {
+  "bano_suelo": {
+   "medicion": 5.0,
+   "unidad": "m²",
+   "opciones": [
+    "S02",
+    "S03"
+   ]
+  },
+  "bano_azulejos": {
+   "medicion": 23.4,
+   "unidad": "m²",
+   "opciones": [
+    "P01",
+    "P02"
+   ]
+  },
+  "cocina_muebles": {
+   "medicion": 5.0,
+   "unidad": "ml",
+   "opciones": [
+    "M02",
+    "M01"
+   ],
+   "material": "M02"
+  },
+  "peninsula": {
+   "medicion": 1,
+   "unidad": "ud",
+   "opciones": [
+    "M02",
+    "M01"
+   ],
+   "material": "M02"
+  },
+  "encimera": {
+   "medicion": 7.0,
+   "unidad": "ml",
+   "opciones": [
+    "E01",
+    "E02",
+    "E03"
+   ]
+  }
+ },
+ "partidas": [
+  {
+   "id": "laminado",
+   "codigo": "S01",
+   "titulo": "Suelo laminado de roble",
+   "oficio": "5. Carpintería y mobiliario",
+   "descripcion": "Suministro y colocación de suelo laminado roble natural AC5 de Maderas Turia (modelo S01), sobre lámina aislante acústica y térmica.",
+   "calculo": "55,00 m² × 38,00 €/m²",
+   "total": "2.090,00 €"
+  },
+  {
+   "id": "cocina_muebles",
+   "codigo": "M02",
+   "titulo": "Mobiliario cocina verde salvia",
+   "oficio": "5. Carpintería y mobiliario",
+   "descripcion": "Suministro y montaje de mobiliario de cocina en L (5 ml) con frentes verde salvia (modelo M02) y cierre amortiguado.",
+   "calculo": "5,00 ml × 620,00 €/ml",
+   "total": "3.100,00 €"
+  },
+  {
+   "id": "peninsula",
+   "codigo": "K02",
+   "titulo": "Península con almacenaje",
+   "oficio": "5. Carpintería y mobiliario",
+   "descripcion": "Suministro y montaje de península divisoria cocina-salón (2 ml) con estructura, almacenaje bajo a dos caras y frentes verde salvia M02.",
+   "calculo": "1,00 ud × 1.450,00 €",
+   "total": "1.450,00 €"
+  },
+  {
+   "id": "encimera",
+   "codigo": "E01",
+   "titulo": "Encimera de cuarzo blanco",
+   "oficio": "5. Carpintería y mobiliario",
+   "descripcion": "Suministro e instalación de encimera de cuarzo blanco de 2 cm de Encimeras Levante (modelo E01), colocada con copetes y cajeados en bancada y península.",
+   "calculo": "7,00 ml × 270,00 €/ml",
+   "total": "1.890,00 €"
+  },
+  {
+   "id": "ducha",
+   "codigo": "B01",
+   "titulo": "Plato de ducha y mampara",
+   "oficio": "3. Fontanería y aparatos sanitarios",
+   "descripcion": "Suministro e instalación de plato de ducha de resina antideslizante extraplano con mampara de vidrio templado de seguridad.",
+   "calculo": "1,00 ud × 890,00 €",
+   "total": "890,00 €"
+  },
+  {
+   "id": "bano_suelo",
+   "codigo": "S02",
+   "titulo": "Suelo porcelánico del baño",
+   "oficio": "2. Albañilería y revestimientos",
+   "descripcion": "Suministro y colocación de pavimento porcelánico gris perla 60x60 cm de Cerámicas Onda (modelo S02) en baño.",
+   "calculo": "5,00 m² × 63,00 €/m²",
+   "total": "315,00 €"
+  },
+  {
+   "id": "bano_azulejos",
+   "codigo": "P01",
+   "titulo": "Azulejos blancos del baño",
+   "oficio": "2. Albañilería y revestimientos",
+   "descripcion": "Suministro y colocación de azulejo blanco mate 30x60 cm de Cerámicas Onda (modelo P01) en paredes de baño con cemento cola flexible.",
+   "calculo": "23,40 m² × 58,00 €/m²",
+   "total": "1.357,20 €"
+  },
+  {
+   "id": "pintura",
+   "codigo": "P03",
+   "titulo": "Paredes y techos blanco roto",
+   "oficio": "6. Pintura",
+   "descripcion": "Suministro y aplicación de pintura plástica lisa color blanco roto (acabado P03) en paredes y techos de toda la vivienda excepto baño.",
+   "calculo": "210,00 m² × 9,00 €/m²",
+   "total": "1.890,00 €"
+  },
+  {
+   "id": "rodapie",
+   "codigo": "R05",
+   "titulo": "Rodapié lacado blanco",
+   "oficio": "5. Carpintería y mobiliario",
+   "descripcion": "Suministro y colocación de rodapié lacado en blanco de 8 cm fijado a pared y sellado.",
+   "calculo": "54,00 ml × 8,00 €/ml",
+   "total": "432,00 €"
+  },
+  {
+   "id": "cargadero",
+   "codigo": "A04",
+   "titulo": "Cargadero metálico de seguridad",
+   "oficio": "2. Albañilería y refuerzos",
+   "descripcion": "Suministro y colocación de cargadero metálico estructural en apertura de hueco cocina-salón (4 m) para total seguridad.",
+   "calculo": "1,00 ud × 650,00 €",
+   "total": "650,00 €"
+  },
+  {
+   "id": "puertas",
+   "codigo": "C01",
+   "titulo": "Puertas interiores lacadas",
+   "oficio": "5. Carpintería y mobiliario",
+   "descripcion": "Suministro y colocación de 4 puertas interiores de paso abatibles lacadas en blanco con tapajuntas y manivelas cromadas.",
+   "calculo": "4,00 ud × 340,00 €",
+   "total": "1.360,00 €"
+  }
+ ],
+ "vistas": [
+  {
+   "estancia": "salon",
+   "pos": [
+    2.5,
+    3.55
+   ],
+   "mira": [
+    7.0,
+    0.5
+   ]
+  },
+  {
+   "estancia": "cocina",
+   "pos": [
+    3.9,
+    3.7
+   ],
+   "mira": [
+    7.6,
+    0.4
+   ]
+  },
+  {
+   "estancia": "pasillo",
+   "pos": [
+    0.45,
+    4.5
+   ],
+   "mira": [
+    8,
+    4.5
+   ]
+  },
+  {
+   "estancia": "dorm1",
+   "pos": [
+    2.7,
+    5.6
+   ],
+   "mira": [
+    0.4,
+    6.9
+   ]
+  },
+  {
+   "estancia": "dorm2",
+   "pos": [
+    3.75,
+    6.6
+   ],
+   "mira": [
+    5.9,
+    5.5
+   ]
+  },
+  {
+   "estancia": "bano",
+   "pos": [
+    7.15,
+    5.2
+   ],
+   "mira": [
+    6.7,
+    7.4
+   ]
+  }
+ ],
+ "vista_general": {
+  "pos": [
+   -2.0,
+   14.5,
+   12.0
+  ],
+  "mira": [
+   4.0,
+   0,
+   3.6
+  ]
+ }
+}

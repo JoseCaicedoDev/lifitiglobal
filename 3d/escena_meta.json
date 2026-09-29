@@ -1,0 +1,479 @@
+{
+ "escalas_lm": {
+  "actual": 4.070311851501479,
+  "reforma": 4.322712766170519
+ },
+ "altura": 2.6,
+ "sol": {
+  "hacia_sol_blender": [
+   -0.2695155739784241,
+   -0.7404878735542297,
+   0.6156615018844604
+  ],
+  "energia_sol": 12.563027381896973,
+  "e_cielo": 3.5894363668246525
+ },
+ "estancias": [
+  {
+   "id": "salon",
+   "nombre": "Sal\u00f3n",
+   "x": 0,
+   "y": 0,
+   "ancho": 5,
+   "largo": 4,
+   "area": "20 m\u00b2"
+  },
+  {
+   "id": "cocina",
+   "nombre": "Cocina",
+   "x": 5,
+   "y": 0,
+   "ancho": 3,
+   "largo": 4,
+   "area": "12 m\u00b2"
+  },
+  {
+   "id": "pasillo",
+   "nombre": "Pasillo",
+   "x": 0,
+   "y": 4,
+   "ancho": 8,
+   "largo": 1,
+   "area": "8 m\u00b2"
+  },
+  {
+   "id": "dorm1",
+   "nombre": "Dormitorio 1",
+   "x": 0,
+   "y": 5,
+   "ancho": 3.5,
+   "largo": 2.5,
+   "area": "8,75 m\u00b2"
+  },
+  {
+   "id": "dorm2",
+   "nombre": "Dormitorio 2",
+   "x": 3.5,
+   "y": 5,
+   "ancho": 2.5,
+   "largo": 2.5,
+   "area": "6,25 m\u00b2"
+  },
+  {
+   "id": "bano",
+   "nombre": "Ba\u00f1o",
+   "x": 6,
+   "y": 5,
+   "ancho": 2,
+   "largo": 2.5,
+   "area": "5 m\u00b2"
+  }
+ ],
+ "mats": {
+  "S01": {
+   "tex": "gen/S01",
+   "nor": "laminate_floor_02_nor",
+   "col": null,
+   "rough": 0.42,
+   "metal": 0.0,
+   "nor_s": 0.6,
+   "tam": 1.5
+  },
+  "S02": {
+   "tex": "gen/S02",
+   "nor": "gen/S02_nor",
+   "col": null,
+   "rough": 0.28,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.2
+  },
+  "S03": {
+   "tex": "gen/S03",
+   "nor": "gen/S03_nor",
+   "col": null,
+   "rough": 0.3,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.2
+  },
+  "P01": {
+   "tex": "gen/P01",
+   "nor": "gen/P01_nor",
+   "col": null,
+   "rough": 0.45,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.2
+  },
+  "P02": {
+   "tex": "gen/P02",
+   "nor": "gen/P02_nor",
+   "col": null,
+   "rough": 0.16,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 0.6
+  },
+  "P03": {
+   "tex": null,
+   "nor": "white_plaster_02_nor",
+   "col": "#F4F1EA",
+   "rough": 0.92,
+   "metal": 0.0,
+   "nor_s": 0.2,
+   "tam": 2.0
+  },
+  "TECHO_BANO": {
+   "tex": null,
+   "nor": null,
+   "col": "#F4F2EE",
+   "rough": 0.9,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "PINT_VIEJA": {
+   "tex": null,
+   "nor": "white_plaster_02_nor",
+   "col": "#E2D8C6",
+   "rough": 0.92,
+   "metal": 0.0,
+   "nor_s": 0.35,
+   "tam": 2.0
+  },
+  "E01": {
+   "tex": "gen/E01",
+   "nor": null,
+   "col": null,
+   "rough": 0.12,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "E02": {
+   "tex": "gen/E02",
+   "nor": null,
+   "col": null,
+   "rough": 0.2,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "E03": {
+   "tex": "gen/E03",
+   "nor": null,
+   "col": null,
+   "rough": 0.5,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "M01": {
+   "tex": null,
+   "nor": null,
+   "col": "#FAFAF7",
+   "rough": 0.5,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "M02": {
+   "tex": null,
+   "nor": null,
+   "col": "#4F7057",
+   "rough": 0.45,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "C01": {
+   "tex": null,
+   "nor": null,
+   "col": "#F6F5F1",
+   "rough": 0.35,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "R05": {
+   "tex": null,
+   "nor": null,
+   "col": "#F6F5F1",
+   "rough": 0.35,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "OLD_TERRAZO": {
+   "tex": "gen/OLD_TERRAZO",
+   "nor": "gen/OLD_TERRAZO_nor",
+   "col": null,
+   "rough": 0.35,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.2
+  },
+  "OLD_BANO_SUELO": {
+   "tex": "gen/OLD_BANO_SUELO",
+   "nor": "gen/OLD_BANO_SUELO_nor",
+   "col": null,
+   "rough": 0.4,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 0.8
+  },
+  "OLD_BANO_PARED": {
+   "tex": "gen/OLD_BANO_PARED",
+   "nor": "gen/OLD_BANO_PARED_nor",
+   "col": null,
+   "rough": 0.22,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 0.6
+  },
+  "OLD_PUERTA": {
+   "tex": "gen/OLD_PUERTA",
+   "nor": null,
+   "col": null,
+   "rough": 0.45,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "OLD_COCINA": {
+   "tex": null,
+   "nor": null,
+   "col": "#D6C4A0",
+   "rough": 0.5,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "OLD_ENCIMERA": {
+   "tex": null,
+   "nor": null,
+   "col": "#8E877B",
+   "rough": 0.45,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "FACHADA": {
+   "tex": null,
+   "nor": null,
+   "col": "#E7E1D6",
+   "rough": 0.95,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "CORTE": {
+   "tex": null,
+   "nor": null,
+   "col": "#EDEAE3",
+   "rough": 0.95,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "ALUMINIO": {
+   "tex": null,
+   "nor": null,
+   "col": "#3B3C3E",
+   "rough": 0.4,
+   "metal": 0.6,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "VIDRIO": {
+   "tex": null,
+   "nor": null,
+   "col": "#FFFFFF",
+   "rough": 0.0,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "ESPEJO": {
+   "tex": null,
+   "nor": null,
+   "col": "#FFFFFF",
+   "rough": 0.02,
+   "metal": 1.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "CROMO": {
+   "tex": null,
+   "nor": null,
+   "col": "#E8E8E8",
+   "rough": 0.12,
+   "metal": 1.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "ACERO": {
+   "tex": null,
+   "nor": null,
+   "col": "#B8BABD",
+   "rough": 0.3,
+   "metal": 1.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "ACERO_OSC": {
+   "tex": null,
+   "nor": null,
+   "col": "#6E7074",
+   "rough": 0.35,
+   "metal": 1.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "ACERO_IPN": {
+   "tex": null,
+   "nor": null,
+   "col": "#55595D",
+   "rough": 0.5,
+   "metal": 0.5,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "NEGRO_VIDRIO": {
+   "tex": null,
+   "nor": null,
+   "col": "#121314",
+   "rough": 0.06,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "METAL_NEGRO": {
+   "tex": null,
+   "nor": null,
+   "col": "#232323",
+   "rough": 0.45,
+   "metal": 0.4,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "ZOCALO": {
+   "tex": null,
+   "nor": null,
+   "col": "#3A3B38",
+   "rough": 0.6,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "CERAMICA": {
+   "tex": null,
+   "nor": null,
+   "col": "#FAFAF8",
+   "rough": 0.08,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "CERAMICA_VIEJA": {
+   "tex": null,
+   "nor": null,
+   "col": "#EEE8DA",
+   "rough": 0.15,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "RESINA": {
+   "tex": null,
+   "nor": null,
+   "col": "#F3F2EF",
+   "rough": 0.6,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "PIEDRA": {
+   "tex": null,
+   "nor": null,
+   "col": "#EDE9E1",
+   "rough": 0.3,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "MADERA": {
+   "tex": "gen/MADERA",
+   "nor": null,
+   "col": null,
+   "rough": 0.5,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "MARCO": {
+   "tex": null,
+   "nor": null,
+   "col": "#2A2826",
+   "rough": 0.5,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "TELA_SOFA": {
+   "tex": "gen/TELA_SOFA",
+   "nor": "rough_linen_nor",
+   "col": null,
+   "rough": 0.95,
+   "metal": 0.0,
+   "nor_s": 0.5,
+   "tam": 0.5
+  },
+  "TELA_CAMA": {
+   "tex": "gen/TELA_CAMA",
+   "nor": "rough_linen_nor",
+   "col": null,
+   "rough": 0.95,
+   "metal": 0.0,
+   "nor_s": 0.5,
+   "tam": 0.5
+  },
+  "TELA_MANTA": {
+   "tex": "gen/TELA_MANTA",
+   "nor": "rough_linen_nor",
+   "col": null,
+   "rough": 0.95,
+   "metal": 0.0,
+   "nor_s": 0.7,
+   "tam": 0.5
+  },
+  "ALFOMBRA": {
+   "tex": "gen/ALFOMBRA",
+   "nor": "rough_linen_nor",
+   "col": null,
+   "rough": 1.0,
+   "metal": 0.0,
+   "nor_s": 0.9,
+   "tam": 0.4
+  },
+  "ARTE_1": {
+   "tex": "gen/ARTE_1",
+   "nor": null,
+   "col": null,
+   "rough": 0.8,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  },
+  "ARTE_2": {
+   "tex": "gen/ARTE_2",
+   "nor": null,
+   "col": null,
+   "rough": 0.8,
+   "metal": 0.0,
+   "nor_s": 1.0,
+   "tam": 1.0
+  }
+ }
+}
